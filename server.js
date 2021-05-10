@@ -1,10 +1,10 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const bookRouter = require("./routes/book");
 
-mongoose.connect("mongodb://localhost/book-api", {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -16,8 +16,11 @@ db.once("open", () => console.log("DB is on"));
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.use("/api/books", bookRouter);
 
